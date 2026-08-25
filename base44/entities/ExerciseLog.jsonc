@@ -1,0 +1,45 @@
+{
+  "name": "ExerciseLog",
+  "type": "object",
+  "properties": {
+    "date": {
+      "type": "string",
+      "format": "date"
+    },
+    "activity_type": {
+      "type": "string",
+      "enum": [
+        "Walking",
+        "Swimming",
+        "Cycling",
+        "Yoga",
+        "Strength Training",
+        "Stretching",
+        "Water Aerobics",
+        "Gardening",
+        "Dancing",
+        "Other"
+      ]
+    },
+    "duration_minutes": {
+      "type": "number"
+    },
+    "intensity": {
+      "type": "string",
+      "enum": [
+        "Light",
+        "Moderate",
+        "Vigorous"
+      ],
+      "default": "Moderate"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "date",
+    "activity_type",
+    "duration_minutes"
+  ]
+}

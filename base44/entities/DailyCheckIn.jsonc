@@ -1,0 +1,102 @@
+{
+  "name": "DailyCheckIn",
+  "type": "object",
+  "properties": {
+    "date": {
+      "type": "string",
+      "format": "date"
+    },
+    "body_weight": {
+      "type": "number"
+    },
+    "height": {
+      "type": "number"
+    },
+    "waist_circumference": {
+      "type": "number"
+    },
+    "body_fat_pct": {
+      "type": "number"
+    },
+    "subcutaneous_fat_rating": {
+      "type": "number"
+    },
+    "visceral_fat_rating": {
+      "type": "number"
+    },
+    "skeletal_muscle_pct": {
+      "type": "number"
+    },
+    "muscle_mass": {
+      "type": "number"
+    },
+    "blood_pressure_systolic": {
+      "type": "number"
+    },
+    "blood_pressure_diastolic": {
+      "type": "number"
+    },
+    "resting_heart_rate": {
+      "type": "number"
+    },
+    "fasting_glucose": {
+      "type": "number"
+    },
+    "blood_ketones": {
+      "type": "number"
+    },
+    "total_carbohydrates": {
+      "type": "number"
+    },
+    "protein": {
+      "type": "number"
+    },
+    "fat": {
+      "type": "number"
+    },
+    "steps": {
+      "type": "number"
+    },
+    "walking_distance": {
+      "type": "number"
+    },
+    "walking_duration": {
+      "type": "number"
+    },
+    "strength_workout_completed": {
+      "type": "boolean"
+    },
+    "movement_snacks_completed": {
+      "type": "boolean"
+    },
+    "mobility_completed": {
+      "type": "boolean"
+    },
+    "sleep_duration": {
+      "type": "number"
+    },
+    "energy_rating": {
+      "type": "number"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "date"
+  ],
+  "rls": {
+    "read": {
+      "created_by_id": "{{user.id}}"
+    },
+    "create": {
+      "created_by_id": "{{user.id}}"
+    },
+    "update": {
+      "created_by_id": "{{user.id}}"
+    },
+    "delete": {
+      "created_by_id": "{{user.id}}"
+    }
+  }
+}

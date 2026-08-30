@@ -1,0 +1,41 @@
+{
+  "name": "Profile",
+  "type": "object",
+  "properties": {
+    "height": {
+      "type": "number"
+    },
+    "height_unit": {
+      "type": "string",
+      "enum": [
+        "in",
+        "cm"
+      ],
+      "default": "in"
+    },
+    "starting_weight": {
+      "type": "number"
+    },
+    "starting_waist": {
+      "type": "number"
+    },
+    "focus_of_the_week": {
+      "type": "string"
+    }
+  },
+  "required": [],
+  "rls": {
+    "read": {
+      "created_by_id": "{{user.id}}"
+    },
+    "create": {
+      "created_by_id": "{{user.id}}"
+    },
+    "update": {
+      "created_by_id": "{{user.id}}"
+    },
+    "delete": {
+      "created_by_id": "{{user.id}}"
+    }
+  }
+}

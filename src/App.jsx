@@ -10,6 +10,9 @@ import AppLayout from '@/components/AppLayout';
 import Dashboard from '@/pages/Dashboard';
 import Log from '@/pages/Log';
 import History from '@/pages/History';
+import Onboarding from '@/pages/Onboarding';
+import Profile from '@/pages/Profile';
+import ProgressReports from '@/pages/ProgressReports';
 // Add page imports here
 
 const AuthenticatedApp = () => {
@@ -43,7 +46,10 @@ const AuthenticatedApp = () => {
         <Route path="/" element={<Dashboard />} />
         <Route path="/log" element={<Log />} />
         <Route path="/history" element={<History />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/progress-reports" element={<ProgressReports />} />
       </Route>
+      <Route path="/onboarding" element={<Onboarding />} />
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   );

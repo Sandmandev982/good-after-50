@@ -1,14 +1,34 @@
-import React from "react";
-import { Outlet, NavLink } from "react-router-dom";
-import { LayoutDashboard, Plus, History } from "lucide-react";
+import React, { useEffect } from "react";
+import { Outlet, NavLink, useNavigate } from "react-router-dom";
+import { LayoutDashboard, Plus, History, User, BarChart3 } from "lucide-react";
+import { useProfile } from "@/hooks/useProfile";
 
 const navItems = [
   { to: "/", label: "Dashboard", icon: LayoutDashboard, end: true },
   { to: "/log", label: "Log Entry", icon: Plus },
   { to: "/history", label: "History", icon: History },
+  { to: "/progress-reports", label: "Progress", icon: BarChart3 },
+  { to: "/profile", label: "Profile", icon: User },
 ];
 
 export default function AppLayout() {
+  const { profile, loading } = useProfile();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!loading && !profile) {
+      navigate("/onboarding", { replace: true });
+    }
+  }, [loading, profile, navigate]);
+
+  if (loading || !profile) {
+    return (
+      <div className="fixed inset-0 flex items-center justify-center">
+        <div className="w-8 h-8 border-4 border-muted border-t-primary rounded-full animate-spin"></div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-background flex flex-col md:flex-row">
       <aside className="md:w-60 md:min-h-screen border-b md:border-b-0 md:border-r border-sidebar-border bg-sidebar-background flex md:flex-col">

@@ -7,7 +7,8 @@ import {
   ResponsiveContainer, AreaChart, Area, XAxis, YAxis, Tooltip,
   CartesianGrid, BarChart, Bar
 } from "recharts";
-import { TrendingUp, Activity, Moon, HeartPulse, Plus, ClipboardList } from "lucide-react";
+import { TrendingUp, Activity, Moon, HeartPulse, Plus, ClipboardList, Droplet, FlaskConical } from "lucide-react";
+import { computeGKI, computeDrBozRatio } from "@/lib/healthCalculations";
 
 const tooltipStyle = {
   backgroundColor: "hsl(var(--card))",
@@ -44,6 +45,12 @@ export default function Dashboard() {
   const sorted = [...checkins].sort((a, b) => a.date.localeCompare(b.date));
   const latest = sorted[sorted.length - 1];
 
+  const latestMetabolic = [...sorted]
+    .reverse()
+    .find((c) => c.fasting_glucose != null && c.blood_ketones != null && c.blood_ketones !== 0);
+  const gki = latestMetabolic ? computeGKI(latestMetabolic.fasting_glucose, latestMetabolic.blood_ketones) : null;
+  const drBoz = latestMetabolic ? computeDrBozRatio(latestMetabolic.fasting_glucose, latestMetabolic.blood_ketones) : null;
+
   const weightSeries = sorted.slice(-14).map((c) => ({
     date: c.date.slice(5),
     weight: c.body_weight,
@@ -58,6 +65,8 @@ export default function Dashboard() {
     { label: "Latest BP", value: latest?.blood_pressure_systolic ? `${latest.blood_pressure_systolic}/${latest.blood_pressure_diastolic || ""}` : "—", icon: HeartPulse, color: "text-rose-400" },
     { label: "Latest Sleep", value: latest?.sleep_duration != null ? `${latest.sleep_duration} h` : "—", icon: Moon, color: "text-violet-400" },
     { label: "Latest Steps", value: latest?.steps != null ? `${latest.steps}` : "—", icon: Activity, color: "text-emerald-400" },
+    { label: "GKI", value: gki != null ? `${Math.round(gki * 10) / 10}` : "—", icon: Droplet, color: "text-cyan-400" },
+    { label: "Dr. Boz Ratio", value: drBoz != null ? `${Math.round(drBoz * 10) / 10}` : "—", icon: FlaskConical, color: "text-amber-300" },
   ];
 
   const hasData = checkins.length > 0;

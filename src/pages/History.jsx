@@ -4,6 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { Trash2, ClipboardList } from "lucide-react";
+import { metabolicNumbers, round } from "@/lib/healthCalculations";
 
 const summaryFields = [
   { key: "body_weight", label: "Weight" },
@@ -92,6 +93,16 @@ export default function History() {
                       return <span key={f.key}>{display}</span>;
                     })}
                   </div>
+                  {(() => {
+                    const m = metabolicNumbers(item);
+                    if (!m) return null;
+                    return (
+                      <div className="flex flex-wrap gap-x-4 gap-y-0.5 text-sm text-muted-foreground mt-0.5">
+                        <span>GKI: {round(m.gki, 1)}</span>
+                        <span>Dr. Boz: {round(m.drBoz, 1)}</span>
+                      </div>
+                    );
+                  })()}
                   <div className="flex flex-wrap gap-x-4 gap-y-0.5 text-sm text-muted-foreground mt-0.5">
                     {flagFields.map((f) => (
                       item[f.key] ? <span key={f.key} className="text-primary">{f.label} ✓</span> : null

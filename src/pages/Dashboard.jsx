@@ -1,161 +1,124 @@
 import React, { useState, useEffect } from "react";
 import { base44 } from "@/api/base44Client";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useProfile } from "@/hooks/useProfile";
 import { Link } from "react-router-dom";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
-import {
-  ResponsiveContainer, AreaChart, Area, XAxis, YAxis, Tooltip,
-  CartesianGrid, BarChart, Bar
-} from "recharts";
-import { TrendingUp, Activity, Moon, HeartPulse, Plus, ClipboardList, Droplet, FlaskConical } from "lucide-react";
-import { computeGKI, computeDrBozRatio } from "@/lib/healthCalculations";
+import { computeDailyScore } from "@/lib/healthCalculations";
+import DailyScoreRing from "@/components/dashboard/DailyScoreRing";
+import TodayTab from "@/components/dashboard/TodayTab";
+import MetabolicTab from "@/components/dashboard/MetabolicTab";
+import BodyCompositionTab from "@/components/dashboard/BodyCompositionTab";
+import ActivityTab from "@/components/dashboard/ActivityTab";
+import TrendsTab from "@/components/dashboard/TrendsTab";
 
-const tooltipStyle = {
-  backgroundColor: "hsl(var(--card))",
-  border: "1px solid hsl(var(--border))",
-  borderRadius: "8px",
-  fontSize: "12px",
-  color: "hsl(var(--card-foreground))",
-};
+const TAB_CLASS =
+  "rounded-xl px-4 py-2.5 font-extrabold bg-secondary text-foreground border border-muted-foreground/40 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:border-primary";
 
 export default function Dashboard() {
   const [checkins, setCheckins] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { profile } = useProfile();
 
   useEffect(() => {
+    let active = true;
     async function load() {
       try {
         const items = await base44.entities.DailyCheckIn.list("-date", 200);
-        setCheckins(items || []);
+        if (active) setCheckins(items || []);
       } finally {
-        setLoading(false);
+        if (active) setLoading(false);
       }
     }
     load();
+    return () => {
+      active = false;
+    };
   }, []);
 
   if (loading) {
     return (
       <div className="flex items-center justify-center py-24">
-        <div className="w-8 h-8 border-4 border-muted border-t-primary rounded-full animate-spin"></div>
+        <div className="w-8 h-8 border-4 border-muted border-t-primary rounded-full animate-spin" />
       </div>
     );
   }
 
   const sorted = [...checkins].sort((a, b) => a.date.localeCompare(b.date));
   const latest = sorted[sorted.length - 1];
+  const today = new Date().toISOString().slice(0, 10);
+  const todaysCheckin = sorted.find((c) => c.date === today);
+  const score = computeDailyScore(todaysCheckin || null);
 
-  const latestMetabolic = [...sorted]
-    .reverse()
-    .find((c) => c.fasting_glucose != null && c.blood_ketones != null && c.blood_ketones !== 0);
-  const gki = latestMetabolic ? computeGKI(latestMetabolic.fasting_glucose, latestMetabolic.blood_ketones) : null;
-  const drBoz = latestMetabolic ? computeDrBozRatio(latestMetabolic.fasting_glucose, latestMetabolic.blood_ketones) : null;
-
-  const weightSeries = sorted.slice(-14).map((c) => ({
-    date: c.date.slice(5),
-    weight: c.body_weight,
-  }));
-  const stepsSeries = sorted.slice(-14).map((c) => ({
-    date: c.date.slice(5),
-    steps: c.steps,
-  }));
-
-  const stats = [
-    { label: "Latest Weight", value: latest?.body_weight != null ? `${latest.body_weight}` : "—", icon: TrendingUp, color: "text-sky-400" },
-    { label: "Latest BP", value: latest?.blood_pressure_systolic ? `${latest.blood_pressure_systolic}/${latest.blood_pressure_diastolic || ""}` : "—", icon: HeartPulse, color: "text-rose-400" },
-    { label: "Latest Sleep", value: latest?.sleep_duration != null ? `${latest.sleep_duration} h` : "—", icon: Moon, color: "text-violet-400" },
-    { label: "Latest Steps", value: latest?.steps != null ? `${latest.steps}` : "—", icon: Activity, color: "text-emerald-400" },
-    { label: "GKI", value: gki != null ? `${Math.round(gki * 10) / 10}` : "—", icon: Droplet, color: "text-cyan-400" },
-    { label: "Dr. Boz Ratio", value: drBoz != null ? `${Math.round(drBoz * 10) / 10}` : "—", icon: FlaskConical, color: "text-amber-300" },
-  ];
-
-  const hasData = checkins.length > 0;
+  const hour = new Date().getHours();
+  const tod = hour < 12 ? "morning" : hour < 18 ? "afternoon" : "evening";
+  const dateStr = new Date().toLocaleDateString("en-US", {
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+  });
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-start justify-between gap-4 flex-wrap">
-        <div>
-          <h2 className="text-2xl font-heading font-semibold">Dashboard</h2>
-          <p className="text-muted-foreground text-sm mt-1">Your health at a glance — last 14 days.</p>
+    <div className="space-y-4">
+      <section
+        className="rounded-[26px] border border-primary/50 p-5 md:p-6"
+        style={{
+          background:
+            "radial-gradient(circle at top right, hsl(var(--primary) / 0.22), transparent 34%), linear-gradient(145deg, #0e0e0e, #1c1c1c)",
+        }}
+      >
+        <div className="flex justify-between items-center gap-4 flex-wrap">
+          <div>
+            <div className="font-heading uppercase tracking-[0.16em] text-sm font-extrabold text-chart-3">
+              Good After 50
+            </div>
+            <div className="font-display text-2xl md:text-[28px] font-bold text-foreground mt-1.5">
+              Strong. Sharp. Significant.
+            </div>
+          </div>
+          <Button asChild>
+            <Link to="/log">Daily check-in</Link>
+          </Button>
         </div>
-        <Button asChild size="sm">
-          <Link to="/log"><Plus size={16} className="mr-1" /> Check-In</Link>
-        </Button>
-      </div>
 
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-        {stats.map((s) => {
-          const Icon = s.icon;
-          return (
-            <Card key={s.label}>
-              <CardContent className="p-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-xs text-muted-foreground">{s.label}</p>
-                    <p className="text-xl font-semibold mt-0.5">{s.value}</p>
-                  </div>
-                  <div className={`p-2 rounded-lg bg-muted ${s.color}`}>
-                    <Icon size={18} />
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          );
-        })}
-      </div>
-
-      {!hasData ? (
-        <Card>
-          <CardContent className="py-16 text-center">
-            <ClipboardList className="h-10 w-10 mx-auto text-muted-foreground mb-3" />
-            <p className="text-muted-foreground mb-4">No check-ins yet. Start by logging your first daily entry.</p>
-            <Button asChild><Link to="/log">Log your first check-in</Link></Button>
-          </CardContent>
-        </Card>
-      ) : (
-        <div className="grid gap-4 md:grid-cols-2">
-          <ChartCard title="Weight Trend">
-            <ResponsiveContainer width="100%" height={220}>
-              <AreaChart data={weightSeries}>
-                <defs>
-                  <linearGradient id="wt" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="hsl(var(--chart-2))" stopOpacity={0.4} />
-                    <stop offset="95%" stopColor="hsl(var(--chart-2))" stopOpacity={0} />
-                  </linearGradient>
-                </defs>
-                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                <XAxis dataKey="date" stroke="hsl(var(--muted-foreground))" fontSize={11} />
-                <YAxis stroke="hsl(var(--muted-foreground))" fontSize={11} domain={["auto", "auto"]} />
-                <Tooltip contentStyle={tooltipStyle} />
-                <Area type="monotone" dataKey="weight" stroke="hsl(var(--chart-2))" fill="url(#wt)" strokeWidth={2} connectNulls />
-              </AreaChart>
-            </ResponsiveContainer>
-          </ChartCard>
-
-          <ChartCard title="Daily Steps">
-            <ResponsiveContainer width="100%" height={220}>
-              <BarChart data={stepsSeries}>
-                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                <XAxis dataKey="date" stroke="hsl(var(--muted-foreground))" fontSize={11} />
-                <YAxis stroke="hsl(var(--muted-foreground))" fontSize={11} />
-                <Tooltip contentStyle={tooltipStyle} />
-                <Bar dataKey="steps" fill="hsl(var(--chart-1))" radius={[4, 4, 0, 0]} />
-              </BarChart>
-            </ResponsiveContainer>
-          </ChartCard>
+        <div className="flex justify-between items-end gap-4 flex-wrap mt-7">
+          <div>
+            <div className="text-sm text-muted-foreground">{dateStr}</div>
+            <h1 className="font-display text-[26px] md:text-[29px] font-bold mt-1.5 text-foreground leading-tight">
+              Good {tod}
+            </h1>
+            <p className="mt-2 text-foreground/90 max-w-md">
+              See what changed, why it changed, and what to do next.
+            </p>
+          </div>
+          <DailyScoreRing score={score} />
         </div>
-      )}
+      </section>
+
+      <Tabs defaultValue="today">
+        <TabsList className="flex flex-wrap gap-2 bg-transparent p-0 h-auto rounded-none">
+          <TabsTrigger value="today" className={TAB_CLASS}>Today</TabsTrigger>
+          <TabsTrigger value="metabolic" className={TAB_CLASS}>Metabolic</TabsTrigger>
+          <TabsTrigger value="body" className={TAB_CLASS}>Body Composition</TabsTrigger>
+          <TabsTrigger value="activity" className={TAB_CLASS}>Activity</TabsTrigger>
+          <TabsTrigger value="trends" className={TAB_CLASS}>Trends</TabsTrigger>
+        </TabsList>
+        <TabsContent value="today" className="mt-4">
+          <TodayTab latest={latest} profile={profile} />
+        </TabsContent>
+        <TabsContent value="metabolic" className="mt-4">
+          <MetabolicTab latest={latest} />
+        </TabsContent>
+        <TabsContent value="body" className="mt-4">
+          <BodyCompositionTab latest={latest} profile={profile} />
+        </TabsContent>
+        <TabsContent value="activity" className="mt-4">
+          <ActivityTab checkins={sorted} />
+        </TabsContent>
+        <TabsContent value="trends" className="mt-4">
+          <TrendsTab checkins={sorted} profile={profile} />
+        </TabsContent>
+      </Tabs>
     </div>
-  );
-}
-
-function ChartCard({ title, children }) {
-  return (
-    <Card>
-      <CardHeader className="pb-2">
-        <CardTitle className="text-sm font-medium text-muted-foreground">{title}</CardTitle>
-      </CardHeader>
-      <CardContent>{children}</CardContent>
-    </Card>
   );
 }

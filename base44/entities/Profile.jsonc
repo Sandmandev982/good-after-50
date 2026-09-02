@@ -19,6 +19,24 @@
     "starting_waist": {
       "type": "number"
     },
+    "starting_body_fat_pct": {
+      "type": "number"
+    },
+    "starting_subcutaneous_fat": {
+      "type": "number"
+    },
+    "starting_muscle_mass": {
+      "type": "number"
+    },
+    "starting_protein_intake": {
+      "type": "number"
+    },
+    "hydration_fluid_oz_per_day": {
+      "type": "number"
+    },
+    "hydration_glasses_per_day": {
+      "type": "number"
+    },
     "focus_of_the_week": {
       "type": "string"
     }

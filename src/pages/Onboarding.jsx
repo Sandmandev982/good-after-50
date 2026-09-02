@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
 import { useProfile } from "@/hooks/useProfile";
+import BaselineNumberFields, { BASELINE_NUMBER_KEYS } from "@/components/BaselineNumberFields";
 
 export default function Onboarding() {
   const { profile, loading, saveProfile } = useProfile();
@@ -16,6 +17,7 @@ export default function Onboarding() {
     height_unit: "in",
     starting_weight: "",
     starting_waist: "",
+    ...Object.fromEntries(BASELINE_NUMBER_KEYS.map((k) => [k, ""])),
     focus_of_the_week: "",
   });
   const [saving, setSaving] = useState(false);
@@ -35,6 +37,9 @@ export default function Onboarding() {
         height_unit: form.height_unit,
         starting_weight: form.starting_weight ? Number(form.starting_weight) : undefined,
         starting_waist: form.starting_waist ? Number(form.starting_waist) : undefined,
+        ...Object.fromEntries(
+          BASELINE_NUMBER_KEYS.map((k) => [k, form[k] ? Number(form[k]) : undefined])
+        ),
         focus_of_the_week: form.focus_of_the_week || undefined,
       };
       await saveProfile(data);
@@ -123,6 +128,7 @@ export default function Onboarding() {
                   />
                 </div>
               </div>
+              <BaselineNumberFields form={form} set={set} className="grid grid-cols-2 gap-3" />
               <div className="space-y-1.5">
                 <Label>Focus of the week</Label>
                 <Input

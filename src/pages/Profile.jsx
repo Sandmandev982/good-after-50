@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
 import { useProfile } from "@/hooks/useProfile";
+import BaselineNumberFields, { BASELINE_NUMBER_KEYS } from "@/components/BaselineNumberFields";
 
 export default function Profile() {
   const { profile, loading, saveProfile } = useProfile();
@@ -14,6 +15,7 @@ export default function Profile() {
     height_unit: "in",
     starting_weight: "",
     starting_waist: "",
+    ...Object.fromEntries(BASELINE_NUMBER_KEYS.map((k) => [k, ""])),
     focus_of_the_week: "",
   });
   const [saving, setSaving] = useState(false);
@@ -25,6 +27,7 @@ export default function Profile() {
         height_unit: profile.height_unit ?? "in",
         starting_weight: profile.starting_weight ?? "",
         starting_waist: profile.starting_waist ?? "",
+        ...Object.fromEntries(BASELINE_NUMBER_KEYS.map((k) => [k, profile[k] ?? ""])),
         focus_of_the_week: profile.focus_of_the_week ?? "",
       });
     }
@@ -41,6 +44,9 @@ export default function Profile() {
         height_unit: form.height_unit,
         starting_weight: form.starting_weight ? Number(form.starting_weight) : undefined,
         starting_waist: form.starting_waist ? Number(form.starting_waist) : undefined,
+        ...Object.fromEntries(
+          BASELINE_NUMBER_KEYS.map((k) => [k, form[k] ? Number(form[k]) : undefined])
+        ),
         focus_of_the_week: form.focus_of_the_week || undefined,
       };
       await saveProfile(data);
@@ -124,6 +130,7 @@ export default function Profile() {
                 />
               </div>
             </div>
+            <BaselineNumberFields form={form} set={set} />
           </CardContent>
         </Card>
         <Card>

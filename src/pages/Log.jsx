@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/components/ui/use-toast";
 import { base44 } from "@/api/base44Client";
+import { useProfile } from "@/hooks/useProfile";
 
 function todayStr() {
   return new Date().toISOString().split("T")[0];
@@ -59,10 +60,18 @@ function buildInitial() {
 
 export default function Log() {
   const { toast } = useToast();
+  const { profile } = useProfile();
   const [form, setForm] = useState(buildInitial);
   const [saving, setSaving] = useState(false);
 
   const set = (k, v) => setForm((f) => ({ ...f, [k]: v }));
+
+  // Pre-fill height from the saved profile (it doesn't change day to day).
+  useEffect(() => {
+    if (profile?.height && form.height === "") {
+      set("height", profile.height);
+    }
+  }, [profile]);
 
   async function submit(e) {
     e.preventDefault();

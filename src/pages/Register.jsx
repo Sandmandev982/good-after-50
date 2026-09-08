@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { UserPlus, Mail, Lock, Loader2 } from "lucide-react";
-import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
 import AuthLayout from "@/components/AuthLayout";
 import GoogleIcon from "@/components/GoogleIcon";
 import { toast } from "@/components/ui/use-toast";
@@ -84,22 +83,17 @@ export default function Register() {
           </div>
         )}
         <div className="flex justify-center mb-6">
-          <InputOTP
+          <Input
+            type="text"
+            inputMode="numeric"
             maxLength={6}
             value={otpCode}
-            onChange={setOtpCode}
+            onChange={(e) => setOtpCode(e.target.value.replace(/\D/g, "").slice(0, 6))}
             autoFocus
             autoComplete="one-time-code"
-          >
-            <InputOTPGroup>
-              <InputOTPSlot index={0} />
-              <InputOTPSlot index={1} />
-              <InputOTPSlot index={2} />
-              <InputOTPSlot index={3} />
-              <InputOTPSlot index={4} />
-              <InputOTPSlot index={5} />
-            </InputOTPGroup>
-          </InputOTP>
+            placeholder="000000"
+            className="text-center text-2xl tracking-[0.5em] h-14 max-w-[16rem]"
+          />
         </div>
         <Button
           className="w-full h-12 font-medium"

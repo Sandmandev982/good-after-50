@@ -11,11 +11,12 @@ import {
   fmtRange,
   fmtCap,
 } from "./shared";
+import { PROTEIN_TARGET_G, CARB_LIMIT_G } from "@/lib/nutritionTargets";
 
 function foundationCount(latest) {
   if (!latest) return 0;
   const checks = [
-    latest.protein >= 175,
+    latest.protein >= PROTEIN_TARGET_G,
     latest.steps >= 10000,
     latest.sleep_duration >= 8,
     !!latest.strength_workout_completed,
@@ -54,9 +55,9 @@ export default function TodayTab({ latest, profile, weeklyFocus }) {
             </div>
           }
         >
-          <ProgressBar label="Protein" right={fmtRange(latest?.protein, 175, "g")} value={pct(latest?.protein, 175)} />
+          <ProgressBar label="Protein" right={fmtRange(latest?.protein, PROTEIN_TARGET_G, "g")} value={pct(latest?.protein, PROTEIN_TARGET_G)} />
           <ProgressBar label="Walking" right={fmtRange(latest?.steps, 10000, " steps")} value={pct(latest?.steps, 10000)} variant="teal" />
-          <ProgressBar label="Total carbohydrates" right={fmtCap(latest?.total_carbohydrates, 35, "g")} value={pctCap(latest?.total_carbohydrates, 35)} variant="teal" />
+          <ProgressBar label="Total carbohydrates" right={fmtCap(latest?.total_carbohydrates, CARB_LIMIT_G, "g")} value={pctCap(latest?.total_carbohydrates, CARB_LIMIT_G)} variant="teal" />
           <ProgressBar label="Sleep" right={fmtRange(latest?.sleep_duration, 8, "h")} value={pct(latest?.sleep_duration, 8)} />
         </SectionCard>
 

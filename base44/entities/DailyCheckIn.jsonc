@@ -54,6 +54,33 @@
     "fat": {
       "type": "number"
     },
+    "breakfast_protein": {
+      "type": "number"
+    },
+    "breakfast_fat": {
+      "type": "number"
+    },
+    "breakfast_carbs": {
+      "type": "number"
+    },
+    "lunch_protein": {
+      "type": "number"
+    },
+    "lunch_fat": {
+      "type": "number"
+    },
+    "lunch_carbs": {
+      "type": "number"
+    },
+    "dinner_protein": {
+      "type": "number"
+    },
+    "dinner_fat": {
+      "type": "number"
+    },
+    "dinner_carbs": {
+      "type": "number"
+    },
     "steps": {
       "type": "number"
     },

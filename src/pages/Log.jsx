@@ -8,6 +8,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/components/ui/use-toast";
 import { base44 } from "@/api/base44Client";
 import { useProfile } from "@/hooks/useProfile";
+import NutritionSection, { MEAL_FIELDS, TOTAL_KEYS, hasAnyMealValues } from "@/components/log/NutritionSection";
 
 function todayStr() {
   return new Date().toISOString().split("T")[0];
@@ -27,9 +28,6 @@ const numericFields = [
   { key: "resting_heart_rate", label: "Resting heart rate", group: "Metabolic" },
   { key: "fasting_glucose", label: "Fasting glucose", group: "Metabolic" },
   { key: "blood_ketones", label: "Blood ketones", group: "Metabolic" },
-  { key: "total_carbohydrates", label: "Total carbohydrates", group: "Nutrition" },
-  { key: "protein", label: "Protein", group: "Nutrition" },
-  { key: "fat", label: "Fat", group: "Nutrition" },
   { key: "steps", label: "Steps", group: "Activity" },
   { key: "walking_distance", label: "Walking distance", group: "Activity" },
   { key: "walking_duration", label: "Walking duration", group: "Activity" },
@@ -54,8 +52,15 @@ const groups = [
 function buildInitial() {
   const state = { date: todayStr(), notes: "" };
   numericFields.forEach((f) => (state[f.key] = ""));
+  MEAL_FIELDS.forEach((f) => (state[f.key] = ""));
+  TOTAL_KEYS.forEach((k) => (state[k] = ""));
   flagFields.forEach((f) => (state[f.key] = false));
   return state;
+}
+
+function toNum(v) {
+  const n = parseFloat(v);
+  return isNaN(n) ? 0 : n;
 }
 
 export default function Log() {
@@ -83,6 +88,24 @@ export default function Log() {
         data[f.key] = Number(form[f.key]);
       }
     });
+    // Per-meal fields
+    MEAL_FIELDS.forEach((f) => {
+      if (form[f.key] !== "" && form[f.key] !== null && form[f.key] !== undefined) {
+        data[f.key] = Number(form[f.key]);
+      }
+    });
+    // Daily totals — hybrid logic
+    if (hasAnyMealValues(form)) {
+      data.protein = toNum(form.breakfast_protein) + toNum(form.lunch_protein) + toNum(form.dinner_protein);
+      data.fat = toNum(form.breakfast_fat) + toNum(form.lunch_fat) + toNum(form.dinner_fat);
+      data.total_carbohydrates = toNum(form.breakfast_carbs) + toNum(form.lunch_carbs) + toNum(form.dinner_carbs);
+    } else {
+      TOTAL_KEYS.forEach((k) => {
+        if (form[k] !== "" && form[k] !== null && form[k] !== undefined) {
+          data[k] = Number(form[k]);
+        }
+      });
+    }
     flagFields.forEach((f) => {
       data[f.key] = Boolean(form[f.key]);
     });
@@ -115,6 +138,9 @@ export default function Log() {
         </Card>
 
         {groups.map((g) => {
+          if (g.id === "Nutrition") {
+            return <NutritionSection key="Nutrition" form={form} set={set} />;
+          }
           const nums = numericFields.filter((f) => f.group === g.id);
           const flags = flagFields.filter((f) => f.group === g.id);
           return (
@@ -134,6 +160,9 @@ export default function Log() {
                           value={form[f.key]}
                           onChange={(e) => set(f.key, e.target.value)}
                         />
+                        {f.key === "energy_rating" && (
+                          <p className="text-[11px] text-muted-foreground/80">1 = very low energy, 10 = very high energy</p>
+                        )}
                       </div>
                     ))}
                   </div>

@@ -1,6 +1,7 @@
 import React from "react";
 import { computeGKI, computeDrBozRatio, round } from "@/lib/healthCalculations";
 import { SectionCard, SectionTitle, MetricCard, ProgressBar, pctCap, fmtCap } from "./shared";
+import { CARB_LIMIT_G } from "@/lib/nutritionTargets";
 
 export default function MetabolicTab({ latest }) {
   const v = (f) => (latest?.[f] != null ? latest[f] : "—");
@@ -19,7 +20,7 @@ export default function MetabolicTab({ latest }) {
 
       <div className="grid gap-3.5 md:grid-cols-2">
         <SectionCard head={<div className="mb-1"><SectionTitle>Metabolic Snapshot</SectionTitle></div>}>
-          <ProgressBar label="Total carbohydrates" right={fmtCap(latest?.total_carbohydrates, 35, "g")} value={pctCap(latest?.total_carbohydrates, 35)} variant="teal" />
+          <ProgressBar label="Total carbohydrates" right={fmtCap(latest?.total_carbohydrates, CARB_LIMIT_G, "g")} value={pctCap(latest?.total_carbohydrates, CARB_LIMIT_G)} variant="teal" />
           <p className="text-sm text-muted-foreground mt-4">
             Glucose and ketones are shown as raw values. GKI and the glucose-ketone ratio are calculations, not medical assessments.
           </p>

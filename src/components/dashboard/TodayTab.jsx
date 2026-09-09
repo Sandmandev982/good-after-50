@@ -24,7 +24,7 @@ function foundationCount(latest) {
   return checks.filter(Boolean).length;
 }
 
-export default function TodayTab({ latest, profile }) {
+export default function TodayTab({ latest, profile, weeklyFocus }) {
   const has = !!latest;
   const v = (f) => (latest?.[f] != null ? latest[f] : "—");
 
@@ -63,7 +63,7 @@ export default function TodayTab({ latest, profile }) {
         <div className="rounded-2xl p-4 md:p-5 border border-primary/60 bg-gradient-to-br from-primary/20 to-primary/5 flex flex-col justify-center">
           <div className="text-[13px] font-black tracking-wide text-chart-3">FOCUS OF THE WEEK</div>
           <h2 className="font-display text-xl font-extrabold text-foreground mt-2">
-            {profile?.focus_of_the_week || "Set a weekly focus in Profile"}
+            {weeklyFocus || "Set a weekly focus in Profile"}
           </h2>
           <p className="text-sm text-foreground/80 mt-2">Win the first meal and the rest of the day becomes easier.</p>
         </div>

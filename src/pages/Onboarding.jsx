@@ -6,10 +6,12 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
 import { useProfile } from "@/hooks/useProfile";
+import { useWeeklyFocus } from "@/hooks/useWeeklyFocus";
 import BaselineNumberFields, { BASELINE_NUMBER_KEYS } from "@/components/BaselineNumberFields";
 
 export default function Onboarding() {
   const { profile, loading, saveProfile } = useProfile();
+  const { saveFocus: saveWeeklyFocus } = useWeeklyFocus();
   const navigate = useNavigate();
   const { toast } = useToast();
   const [form, setForm] = useState({
@@ -40,9 +42,11 @@ export default function Onboarding() {
         ...Object.fromEntries(
           BASELINE_NUMBER_KEYS.map((k) => [k, form[k] ? Number(form[k]) : undefined])
         ),
-        focus_of_the_week: form.focus_of_the_week || undefined,
       };
       await saveProfile(data);
+      if (form.focus_of_the_week) {
+        await saveWeeklyFocus(form.focus_of_the_week);
+      }
       toast({ title: "Profile created", description: "Welcome to Good After 50." });
       navigate("/", { replace: true });
     } catch (err) {

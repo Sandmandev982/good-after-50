@@ -5,10 +5,12 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
 import { useProfile } from "@/hooks/useProfile";
+import { useWeeklyFocus } from "@/hooks/useWeeklyFocus";
 import BaselineNumberFields, { BASELINE_NUMBER_KEYS } from "@/components/BaselineNumberFields";
 
 export default function Profile() {
   const { profile, loading, saveProfile } = useProfile();
+  const { currentFocus, saveFocus: saveWeeklyFocus } = useWeeklyFocus();
   const { toast } = useToast();
   const [form, setForm] = useState({
     height: "",
@@ -28,10 +30,13 @@ export default function Profile() {
         starting_weight: profile.starting_weight ?? "",
         starting_waist: profile.starting_waist ?? "",
         ...Object.fromEntries(BASELINE_NUMBER_KEYS.map((k) => [k, profile[k] ?? ""])),
-        focus_of_the_week: profile.focus_of_the_week ?? "",
       });
     }
   }, [profile]);
+
+  useEffect(() => {
+    if (currentFocus) set("focus_of_the_week", currentFocus);
+  }, [currentFocus]);
 
   const set = (k, v) => setForm((f) => ({ ...f, [k]: v }));
 
@@ -47,9 +52,11 @@ export default function Profile() {
         ...Object.fromEntries(
           BASELINE_NUMBER_KEYS.map((k) => [k, form[k] ? Number(form[k]) : undefined])
         ),
-        focus_of_the_week: form.focus_of_the_week || undefined,
       };
       await saveProfile(data);
+      if (form.focus_of_the_week && form.focus_of_the_week !== currentFocus) {
+        await saveWeeklyFocus(form.focus_of_the_week);
+      }
       toast({ title: "Profile updated" });
     } catch (err) {
       toast({ title: "Could not save", description: err.message, variant: "destructive" });

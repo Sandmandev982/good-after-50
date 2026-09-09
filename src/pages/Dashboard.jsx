@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { base44 } from "@/api/base44Client";
 import { useProfile } from "@/hooks/useProfile";
+import { useWeeklyFocus } from "@/hooks/useWeeklyFocus";
 import { Link } from "react-router-dom";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
@@ -19,6 +20,7 @@ export default function Dashboard() {
   const [checkins, setCheckins] = useState([]);
   const [loading, setLoading] = useState(true);
   const { profile } = useProfile();
+  const { currentFocus } = useWeeklyFocus();
 
   useEffect(() => {
     let active = true;
@@ -104,7 +106,7 @@ export default function Dashboard() {
           <TabsTrigger value="trends" className={TAB_CLASS}>Trends</TabsTrigger>
         </TabsList>
         <TabsContent value="today" className="mt-4">
-          <TodayTab latest={latest} profile={profile} />
+          <TodayTab latest={latest} profile={profile} weeklyFocus={currentFocus} />
         </TabsContent>
         <TabsContent value="metabolic" className="mt-4">
           <MetabolicTab latest={latest} />

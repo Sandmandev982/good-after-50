@@ -36,9 +36,6 @@
     },
     "hydration_glasses_per_day": {
       "type": "number"
-    },
-    "focus_of_the_week": {
-      "type": "string"
     }
   },
   "required": [],

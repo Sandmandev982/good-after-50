@@ -24,13 +24,14 @@ export default function Profile() {
 
   useEffect(() => {
     if (profile) {
-      setForm({
+      setForm((f) => ({
+        ...f,
         height: profile.height ?? "",
         height_unit: profile.height_unit ?? "in",
         starting_weight: profile.starting_weight ?? "",
         starting_waist: profile.starting_waist ?? "",
         ...Object.fromEntries(BASELINE_NUMBER_KEYS.map((k) => [k, profile[k] ?? ""])),
-      });
+      }));
     }
   }, [profile]);
 
@@ -100,7 +101,7 @@ export default function Profile() {
                     className={`flex-1 px-3 py-2 rounded-md text-sm font-medium border transition-colors ${
                       form.height_unit === u
                         ? "bg-primary text-primary-foreground border-primary"
-                        : "bg-transparent text-foreground border-input hover:bg-accent"
+                        : "bg-transparent text-foreground border-input hover:bg-accent hover:text-accent-foreground"
                     }`}
                   >
                     {u === "in" ? "Inches" : "Centimeters"}

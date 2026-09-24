@@ -105,7 +105,7 @@ export default function History() {
                   })()}
                   <div className="flex flex-wrap gap-x-4 gap-y-0.5 text-sm text-muted-foreground mt-0.5">
                     {flagFields.map((f) => (
-                      item[f.key] ? <span key={f.key} className="text-primary">{f.label} ✓</span> : null
+                      item[f.key] ? <span key={f.key} className="text-chart-3">{f.label} ✓</span> : null
                     ))}
                   </div>
                   {item.notes && <p className="text-sm text-muted-foreground mt-1.5">{item.notes}</p>}

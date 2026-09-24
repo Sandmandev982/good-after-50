@@ -55,7 +55,7 @@ export default function NutritionSection({ form, set }) {
         <CardTitle className="text-base">Nutrition</CardTitle>
       </CardHeader>
       <CardContent className="space-y-5">
-        <div className="rounded-2xl p-4 bg-[#202020] border border-border">
+        <div className="rounded-2xl p-4 bg-secondary border border-border">
           <div className="text-xs font-bold text-muted-foreground uppercase tracking-wide mb-1">Daily Totals</div>
           <ProgressBar
             label="Protein"
@@ -76,7 +76,7 @@ export default function NutritionSection({ form, set }) {
 
         <div className="grid gap-4 sm:grid-cols-3">
           {MEALS.map((meal) => (
-            <div key={meal.name} className="rounded-2xl p-4 bg-[#202020] border border-border">
+            <div key={meal.name} className="rounded-2xl p-4 bg-secondary border border-border">
               <div className="text-sm font-bold text-foreground mb-3">{meal.name}</div>
               <div className="space-y-3">
                 {MACROS.map((m) => {

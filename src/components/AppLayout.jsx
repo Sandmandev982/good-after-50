@@ -61,8 +61,10 @@ export default function AppLayout() {
           })}
         </nav>
       </aside>
-      <main className="flex-1 p-4 md:p-8 max-w-6xl mx-auto w-full">
-        <Outlet />
+      <main className="theme-light flex-1 bg-background text-foreground">
+        <div className="p-4 md:p-8 max-w-6xl mx-auto w-full">
+          <Outlet />
+        </div>
       </main>
     </div>
   );

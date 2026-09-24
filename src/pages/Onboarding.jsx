@@ -58,7 +58,7 @@ export default function Onboarding() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
+      <div className="theme-light min-h-screen bg-background text-foreground flex items-center justify-center">
         <div className="w-8 h-8 border-4 border-muted border-t-primary rounded-full animate-spin"></div>
       </div>
     );
@@ -67,7 +67,7 @@ export default function Onboarding() {
   const unitLabel = form.height_unit === "in" ? "inches" : "cm";
 
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center p-4">
+    <div className="theme-light min-h-screen bg-background text-foreground flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         <div className="text-center mb-6">
           <h1 className="text-2xl font-heading font-semibold">Welcome to Good After 50</h1>
@@ -92,7 +92,7 @@ export default function Onboarding() {
                       className={`flex-1 px-3 py-2 rounded-md text-sm font-medium border transition-colors ${
                         form.height_unit === u
                           ? "bg-primary text-primary-foreground border-primary"
-                          : "bg-transparent text-foreground border-input hover:bg-accent"
+                          : "bg-transparent text-foreground border-input hover:bg-accent hover:text-accent-foreground"
                       }`}
                     >
                       {u === "in" ? "Inches" : "Centimeters"}

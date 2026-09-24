@@ -11,7 +11,7 @@ export default function DailyScoreRing({ score }) {
     <div className="flex flex-col items-center gap-2">
       <div
         className="w-[84px] h-[84px] rounded-full p-2"
-        style={{ background: `conic-gradient(hsl(var(--primary)) 0 ${pct}%, #37332e ${pct}% 100%)` }}
+        style={{ background: `conic-gradient(hsl(var(--primary)) 0 ${pct}%, hsl(var(--muted)) ${pct}% 100%)` }}
       >
         <div className="w-full h-full rounded-full bg-background flex flex-col items-center justify-center">
           <strong className="text-[22px] text-foreground leading-none">

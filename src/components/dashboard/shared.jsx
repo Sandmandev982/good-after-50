@@ -55,7 +55,7 @@ export function ProgressBar({ label, right, value, variant = "gold" }) {
         <span className="font-semibold text-foreground">{label}</span>
         <span className="text-muted-foreground">{right}</span>
       </div>
-      <div className="h-2.5 rounded-full bg-[#38332e] overflow-hidden">
+      <div className="h-2.5 rounded-full bg-muted overflow-hidden">
         <div
           className={cn(
             "h-full rounded-full",
@@ -72,7 +72,7 @@ export function ProgressBar({ label, right, value, variant = "gold" }) {
 
 export function ActivityNode({ label, value, detail, accent = "gold" }) {
   return (
-    <div className="rounded-2xl p-4 bg-[#202020] border border-border">
+    <div className="rounded-2xl p-4 bg-secondary border border-border">
       <div className="text-sm text-muted-foreground">{label}</div>
       <strong
         className={cn(
@@ -93,7 +93,7 @@ export function MiniRing({ pct, value, label }) {
     <div className="rounded-2xl p-4 bg-card border border-border flex flex-col items-center">
       <div
         className="w-[102px] h-[102px] rounded-full p-2"
-        style={{ background: `conic-gradient(hsl(var(--primary)) 0 ${clamped}%, #38332e ${clamped}% 100%)` }}
+        style={{ background: `conic-gradient(hsl(var(--primary)) 0 ${clamped}%, hsl(var(--muted)) ${clamped}% 100%)` }}
       >
         <div className="w-full h-full rounded-full bg-card flex flex-col items-center justify-center">
           <strong className="text-lg text-foreground">{value}</strong>

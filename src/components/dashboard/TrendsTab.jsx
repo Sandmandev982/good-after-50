@@ -42,7 +42,7 @@ export default function TrendsTab({ checkins, profile }) {
       >
         <div className="grid gap-3.5 md:grid-cols-2 mt-3">
           {deltas.map((d) => (
-            <div key={d.key} className="rounded-2xl p-4 bg-[#202020] border border-border">
+            <div key={d.key} className="rounded-2xl p-4 bg-secondary border border-border">
               <div className="text-sm font-bold text-muted-foreground">{d.label}</div>
               <div className="flex justify-between items-baseline gap-3 mt-1.5 text-sm">
                 <span className="text-muted-foreground">

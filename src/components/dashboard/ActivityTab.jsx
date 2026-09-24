@@ -33,12 +33,12 @@ export default function ActivityTab({ checkins }) {
       <div className="grid gap-3.5 md:grid-cols-2">
         <SectionCard head={<div className="mb-3"><SectionTitle>Weekly Highlights</SectionTitle></div>}>
           <div className="grid grid-cols-2 gap-3.5">
-            <div className="rounded-2xl p-4 bg-[#202020] border border-border">
+            <div className="rounded-2xl p-4 bg-secondary border border-border">
               <div className="text-sm text-muted-foreground">Strength sessions</div>
               <strong className="block text-[26px] mt-2 text-chart-3">{strength}</strong>
               <div className="text-sm text-muted-foreground mt-1">Goal: 3 / week</div>
             </div>
-            <div className="rounded-2xl p-4 bg-[#202020] border border-border">
+            <div className="rounded-2xl p-4 bg-secondary border border-border">
               <div className="text-sm text-muted-foreground">Mobility days</div>
               <strong className="block text-[26px] mt-2 text-chart-4">{mobility}</strong>
               <div className="text-sm text-muted-foreground mt-1">Goal: 7 / week</div>

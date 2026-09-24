@@ -27,11 +27,11 @@ export default function MetabolicTab({ latest }) {
         </SectionCard>
 
         <SectionCard head={<div className="mb-3"><SectionTitle>How to Read These Numbers</SectionTitle></div>}>
-          <div className="rounded-2xl p-3.5 bg-[#202020] border border-border">
+          <div className="rounded-2xl p-3.5 bg-secondary border border-border">
             <h3 className="font-display font-bold text-foreground">GKI</h3>
             <p className="text-sm text-muted-foreground mt-1">Converts glucose into mmol/L, then divides it by ketones.</p>
           </div>
-          <div className="rounded-2xl p-3.5 bg-[#202020] border border-border mt-2.5">
+          <div className="rounded-2xl p-3.5 bg-secondary border border-border mt-2.5">
             <h3 className="font-display font-bold text-chart-4">Glucose-Ketone Ratio</h3>
             <p className="text-sm text-muted-foreground mt-1">Divides glucose in mg/dL directly by ketones.</p>
           </div>

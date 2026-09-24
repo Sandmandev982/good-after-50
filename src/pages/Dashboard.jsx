@@ -61,12 +61,12 @@ export default function Dashboard() {
   });
 
   return (
-    <div className="space-y-4">
+    <div className="theme-light -m-4 md:-m-8 p-4 md:p-8 min-h-screen bg-background text-foreground space-y-4">
       <section
         className="rounded-[26px] border border-primary/50 p-5 md:p-6"
         style={{
           background:
-            "radial-gradient(circle at top right, hsl(var(--primary) / 0.22), transparent 34%), linear-gradient(145deg, #0e0e0e, #1c1c1c)",
+            "radial-gradient(circle at top right, hsl(var(--primary) / 0.18), transparent 38%), linear-gradient(145deg, hsl(var(--card)), hsl(var(--secondary)))",
         }}
       >
         <div className="flex justify-between items-center gap-4 flex-wrap">

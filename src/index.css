@@ -24,6 +24,8 @@
     --border: 38 12% 25%;
     --input: 0 0% 9%;
     --ring: 39 50% 57%;
+    --btn: 39 50% 57%;
+    --btn-foreground: 0 0% 4%;
     --chart-1: 39 50% 57%;
     --chart-2: 176 50% 36%;
     --chart-3: 41 74% 77%;
@@ -69,5 +71,38 @@
   }
   *::-webkit-scrollbar-thumb:hover {
     background: hsl(var(--muted-foreground));
+  }
+}
+
+/* Light brand scope — applied to the dashboard only. Layered over the dark
+   defaults so every other screen keeps the dark theme untouched. */
+@layer base {
+  .theme-light {
+    --background: 40 53% 93%;
+    --foreground: 0 0% 9%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 9%;
+    --primary: 39 50% 57%;
+    --primary-foreground: 0 0% 4%;
+    --secondary: 40 30% 94%;
+    --secondary-foreground: 0 0% 9%;
+    --muted: 40 20% 90%;
+    --muted-foreground: 35 12% 38%;
+    --accent: 177 49% 36%;
+    --accent-foreground: 40 53% 93%;
+    --destructive: 0 60% 45%;
+    --destructive-foreground: 40 53% 93%;
+    --border: 38 18% 84%;
+    --input: 0 0% 100%;
+    --ring: 177 49% 36%;
+    --btn: 177 49% 36%;
+    --btn-foreground: 40 53% 93%;
+    --chart-1: 39 50% 57%;
+    --chart-2: 177 49% 36%;
+    --chart-3: 38 55% 42%;
+    --chart-4: 177 45% 30%;
+    --chart-5: 35 12% 38%;
   }
 }

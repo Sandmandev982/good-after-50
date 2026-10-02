@@ -1,0 +1,63 @@
+import {
+  Weight,
+  Ruler,
+  CirclePercent,
+  Layers,
+  CircleDot,
+  Bone,
+  BicepsFlexed,
+  Gauge,
+  HeartPulse,
+  Droplet,
+  TestTube,
+  Calculator,
+  Divide,
+  Egg,
+  Nut,
+  Wheat,
+  GlassWater,
+  Footprints,
+  Route,
+  Timer,
+  Dumbbell,
+  Zap,
+  PersonStanding,
+  Bed,
+  BatteryMedium,
+} from "lucide-react";
+
+// Field key -> icon. Static labels only: an icon identifies the measurement,
+// it never changes with the value. Keys with no entry here render no icon.
+export const metricIcons = {
+  body_weight: Weight,
+  waist_circumference: Ruler,
+  body_fat_pct: CirclePercent,
+  subcutaneous_fat_rating: Layers,
+  visceral_fat_rating: CircleDot,
+  skeletal_muscle_pct: Bone,
+  muscle_mass: BicepsFlexed,
+  blood_pressure_systolic: Gauge,
+  blood_pressure_diastolic: Gauge,
+  resting_heart_rate: HeartPulse,
+  fasting_glucose: Droplet,
+  blood_ketones: TestTube,
+  gki: Calculator,
+  glucose_ketone_ratio: Divide,
+  protein: Egg,
+  fat: Nut,
+  total_carbohydrates: Wheat,
+  hydration: GlassWater,
+  steps: Footprints,
+  walking_distance: Route,
+  walking_duration: Timer,
+  strength_workout_completed: Dumbbell,
+  movement_snacks_completed: Zap,
+  mobility_completed: PersonStanding,
+  sleep_duration: Bed,
+  energy_rating: BatteryMedium,
+};
+
+export const METRIC_ICON_SIZE = 18;
+export const METRIC_ICON_STROKE = 2;
+
+export default metricIcons;

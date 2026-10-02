@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ProgressBar } from "@/components/dashboard/shared";
 import { PROTEIN_TARGET_G, CARB_LIMIT_G } from "@/lib/nutritionTargets";
+import { metricIcons } from "@/lib/metricIcons";
 
 export const MEAL_FIELDS = [
   { key: "breakfast_protein" },
@@ -61,12 +62,14 @@ export default function NutritionSection({ form, set }) {
             label="Protein"
             right={`${proteinTotal} / ${PROTEIN_TARGET_G}g`}
             value={(proteinTotal / PROTEIN_TARGET_G) * 100}
+            icon={metricIcons.protein}
           />
           <ProgressBar
             label="Carbs"
             right={`${carbTotal} / ${CARB_LIMIT_G}g`}
             value={(carbTotal / CARB_LIMIT_G) * 100}
             variant="teal"
+            icon={metricIcons.total_carbohydrates}
           />
           <div className="flex justify-between gap-3 text-sm pt-4">
             <span className="font-semibold text-foreground">Fat</span>

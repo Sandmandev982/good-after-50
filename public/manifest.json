@@ -1,0 +1,22 @@
+{
+  "name": "Good After 50",
+  "short_name": "Good After 50",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F7F1E5",
+  "theme_color": "#1a3d36",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "type": "image/svg+xml",
+      "sizes": "any",
+      "purpose": "any"
+    },
+    {
+      "src": "/favicon.svg",
+      "type": "image/svg+xml",
+      "sizes": "any",
+      "purpose": "maskable"
+    }
+  ]
+}

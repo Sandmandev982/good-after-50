@@ -1,6 +1,7 @@
 import React from "react";
 import { round } from "@/lib/healthCalculations";
 import { SectionCard, SectionTitle, MetricCard, MiniRing } from "./shared";
+import { metricIcons } from "@/lib/metricIcons";
 
 export default function BodyCompositionTab({ latest, profile }) {
   const v = (f) => (latest?.[f] != null ? latest[f] : "—");
@@ -19,10 +20,10 @@ export default function BodyCompositionTab({ latest, profile }) {
   return (
     <div className="space-y-3.5">
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3.5">
-        <MetricCard label="Weight" value={v("body_weight")} sub="lb" />
+        <MetricCard label="Weight" value={v("body_weight")} sub="lb" icon={metricIcons.body_weight} />
         <MetricCard label="BMI" value={bmi != null ? round(bmi, 1) : "—"} sub="Height and weight calculation" />
-        <MetricCard label="Body Fat" value={latest?.body_fat_pct != null ? `${latest.body_fat_pct}%` : "—"} sub="Scale estimate" />
-        <MetricCard label="Visceral Fat" value={v("visceral_fat_rating")} sub="Scale level or index" />
+        <MetricCard label="Body Fat" value={latest?.body_fat_pct != null ? `${latest.body_fat_pct}%` : "—"} sub="Scale estimate" icon={metricIcons.body_fat_pct} />
+        <MetricCard label="Visceral Fat" value={v("visceral_fat_rating")} sub="Scale level or index" icon={metricIcons.visceral_fat_rating} />
       </div>
 
       <SectionCard

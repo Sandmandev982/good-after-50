@@ -9,6 +9,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { base44 } from "@/api/base44Client";
 import { useProfile } from "@/hooks/useProfile";
 import NutritionSection, { MEAL_FIELDS, TOTAL_KEYS, hasAnyMealValues } from "@/components/log/NutritionSection";
+import { metricIcons } from "@/lib/metricIcons";
 
 function todayStr() {
   return new Date().toISOString().split("T")[0];
@@ -48,6 +49,16 @@ const groups = [
   { id: "Activity", title: "Activity" },
   { id: "Recovery", title: "Recovery" },
 ];
+
+function MetricLabel({ fieldKey, label }) {
+  const Icon = metricIcons[fieldKey];
+  return (
+    <Label className="flex items-center gap-2 text-xs text-muted-foreground">
+      {Icon && <Icon size={18} strokeWidth={2} className="shrink-0" />}
+      {label}
+    </Label>
+  );
+}
 
 function buildInitial() {
   const state = { date: todayStr(), notes: "" };
@@ -153,7 +164,7 @@ export default function Log() {
                   <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                     {nums.map((f) => (
                       <div key={f.key} className="space-y-1.5">
-                        <Label className="text-xs text-muted-foreground">{f.label}</Label>
+                        <MetricLabel fieldKey={f.key} label={f.label} />
                         <Input
                           type="number"
                           step="any"
@@ -169,15 +180,21 @@ export default function Log() {
                 )}
                 {flags.length > 0 && (
                   <div className="space-y-2.5">
-                    {flags.map((f) => (
-                      <label key={f.key} className="flex items-center gap-2.5 cursor-pointer select-none">
-                        <Checkbox
-                          checked={form[f.key]}
-                          onCheckedChange={(v) => set(f.key, v === true)}
-                        />
-                        <span className="text-sm">{f.label}</span>
-                      </label>
-                    ))}
+                    {flags.map((f) => {
+                      const Icon = metricIcons[f.key];
+                      return (
+                        <label key={f.key} className="flex items-center gap-2.5 cursor-pointer select-none">
+                          <Checkbox
+                            checked={form[f.key]}
+                            onCheckedChange={(v) => set(f.key, v === true)}
+                          />
+                          <span className="flex items-center gap-2 text-sm">
+                            {Icon && <Icon size={18} strokeWidth={2} className="shrink-0" />}
+                            {f.label}
+                          </span>
+                        </label>
+                      );
+                    })}
                   </div>
                 )}
               </CardContent>

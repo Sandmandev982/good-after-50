@@ -25,10 +25,13 @@ export function SectionTitle({ children, className }) {
   );
 }
 
-export function MetricCard({ label, value, sub, subClass, valueClass }) {
+export function MetricCard({ label, value, sub, subClass, valueClass, icon: Icon }) {
   return (
     <div className="rounded-2xl p-4 bg-gradient-to-b from-secondary to-card border border-primary/35">
-      <div className="text-sm font-bold text-muted-foreground">{label}</div>
+      <div className="flex items-center gap-2 text-sm font-bold text-muted-foreground">
+        {Icon && <Icon size={18} strokeWidth={2} className="shrink-0" />}
+        <span>{label}</span>
+      </div>
       <div className={cn("text-[26px] leading-tight font-extrabold mt-2 text-foreground", valueClass)}>
         {value}
       </div>
@@ -48,11 +51,14 @@ export function SectionCard({ children, head, className }) {
   );
 }
 
-export function ProgressBar({ label, right, value, variant = "gold" }) {
+export function ProgressBar({ label, right, value, variant = "gold", icon: Icon }) {
   return (
     <div className="mt-4 first:mt-0">
       <div className="flex justify-between gap-3 mb-2 text-sm">
-        <span className="font-semibold text-foreground">{label}</span>
+        <span className="flex items-center gap-2 font-semibold text-foreground">
+          {Icon && <Icon size={18} strokeWidth={2} className="shrink-0" />}
+          {label}
+        </span>
         <span className="text-muted-foreground">{right}</span>
       </div>
       <div className="h-2.5 rounded-full bg-muted overflow-hidden">
@@ -70,10 +76,13 @@ export function ProgressBar({ label, right, value, variant = "gold" }) {
   );
 }
 
-export function ActivityNode({ label, value, detail, accent = "gold" }) {
+export function ActivityNode({ label, value, detail, accent = "gold", icon: Icon }) {
   return (
     <div className="rounded-2xl p-4 bg-secondary border border-border">
-      <div className="text-sm text-muted-foreground">{label}</div>
+      <div className="flex items-center gap-2 text-sm text-muted-foreground">
+        {Icon && <Icon size={18} strokeWidth={2} className="shrink-0" />}
+        <span>{label}</span>
+      </div>
       <strong
         className={cn(
           "block text-[26px] mt-2",

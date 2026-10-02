@@ -2,6 +2,7 @@ import React from "react";
 import { computeGKI, computeDrBozRatio, round } from "@/lib/healthCalculations";
 import { SectionCard, SectionTitle, MetricCard, ProgressBar, pctCap, fmtCap } from "./shared";
 import { CARB_LIMIT_G } from "@/lib/nutritionTargets";
+import { metricIcons } from "@/lib/metricIcons";
 
 export default function MetabolicTab({ latest }) {
   const v = (f) => (latest?.[f] != null ? latest[f] : "—");
@@ -12,15 +13,15 @@ export default function MetabolicTab({ latest }) {
   return (
     <div className="space-y-3.5">
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3.5">
-        <MetricCard label="Glucose" value={v("fasting_glucose")} sub="mg/dL" />
-        <MetricCard label="Ketones" value={v("blood_ketones")} sub="mmol/L" />
-        <MetricCard label="GKI" value={gki != null ? round(gki, 1) : "—"} sub="Glucose mmol/L ÷ ketones" />
-        <MetricCard label="Glucose-Ketone Ratio" value={drBoz != null ? round(drBoz, 0) : "—"} sub="Glucose mg/dL ÷ ketones" />
+        <MetricCard label="Glucose" value={v("fasting_glucose")} sub="mg/dL" icon={metricIcons.fasting_glucose} />
+        <MetricCard label="Ketones" value={v("blood_ketones")} sub="mmol/L" icon={metricIcons.blood_ketones} />
+        <MetricCard label="GKI" value={gki != null ? round(gki, 1) : "—"} sub="Glucose mmol/L ÷ ketones" icon={metricIcons.gki} />
+        <MetricCard label="Glucose-Ketone Ratio" value={drBoz != null ? round(drBoz, 0) : "—"} sub="Glucose mg/dL ÷ ketones" icon={metricIcons.glucose_ketone_ratio} />
       </div>
 
       <div className="grid gap-3.5 md:grid-cols-2">
         <SectionCard head={<div className="mb-1"><SectionTitle>Metabolic Snapshot</SectionTitle></div>}>
-          <ProgressBar label="Total carbohydrates" right={fmtCap(latest?.total_carbohydrates, CARB_LIMIT_G, "g")} value={pctCap(latest?.total_carbohydrates, CARB_LIMIT_G)} variant="teal" />
+          <ProgressBar label="Total carbohydrates" right={fmtCap(latest?.total_carbohydrates, CARB_LIMIT_G, "g")} value={pctCap(latest?.total_carbohydrates, CARB_LIMIT_G)} variant="teal" icon={metricIcons.total_carbohydrates} />
           <p className="text-sm text-muted-foreground mt-4">
             Glucose and ketones are shown as raw values. GKI and the glucose-ketone ratio are calculations, not medical assessments.
           </p>

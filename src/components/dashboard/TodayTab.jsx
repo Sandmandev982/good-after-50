@@ -12,6 +12,7 @@ import {
   fmtCap,
 } from "./shared";
 import { PROTEIN_TARGET_G, CARB_LIMIT_G } from "@/lib/nutritionTargets";
+import { metricIcons } from "@/lib/metricIcons";
 
 function foundationCount(latest) {
   if (!latest) return 0;
@@ -37,10 +38,11 @@ export default function TodayTab({ latest, profile, weeklyFocus }) {
           value={has && latest.blood_pressure_systolic != null ? `${latest.blood_pressure_systolic}/${latest.blood_pressure_diastolic ?? ""}` : "—"}
           sub={latest?.resting_heart_rate != null ? `Pulse ${latest.resting_heart_rate}` : " "}
           subClass="text-chart-4 font-bold"
+          icon={metricIcons.blood_pressure_systolic}
         />
-        <MetricCard label="Glucose" value={v("fasting_glucose")} sub="mg/dL" />
-        <MetricCard label="Ketones" value={v("blood_ketones")} sub="mmol/L" />
-        <MetricCard label="Weight" value={v("body_weight")} sub="lb" />
+        <MetricCard label="Glucose" value={v("fasting_glucose")} sub="mg/dL" icon={metricIcons.fasting_glucose} />
+        <MetricCard label="Ketones" value={v("blood_ketones")} sub="mmol/L" icon={metricIcons.blood_ketones} />
+        <MetricCard label="Weight" value={v("body_weight")} sub="lb" icon={metricIcons.body_weight} />
       </div>
 
       <div className="grid gap-3.5 lg:grid-cols-[1.35fr_0.65fr]">
@@ -55,10 +57,10 @@ export default function TodayTab({ latest, profile, weeklyFocus }) {
             </div>
           }
         >
-          <ProgressBar label="Protein" right={fmtRange(latest?.protein, PROTEIN_TARGET_G, "g")} value={pct(latest?.protein, PROTEIN_TARGET_G)} />
-          <ProgressBar label="Walking" right={fmtRange(latest?.steps, 10000, " steps")} value={pct(latest?.steps, 10000)} variant="teal" />
-          <ProgressBar label="Total carbohydrates" right={fmtCap(latest?.total_carbohydrates, CARB_LIMIT_G, "g")} value={pctCap(latest?.total_carbohydrates, CARB_LIMIT_G)} variant="teal" />
-          <ProgressBar label="Sleep" right={fmtRange(latest?.sleep_duration, 8, "h")} value={pct(latest?.sleep_duration, 8)} />
+          <ProgressBar label="Protein" right={fmtRange(latest?.protein, PROTEIN_TARGET_G, "g")} value={pct(latest?.protein, PROTEIN_TARGET_G)} icon={metricIcons.protein} />
+          <ProgressBar label="Walking" right={fmtRange(latest?.steps, 10000, " steps")} value={pct(latest?.steps, 10000)} variant="teal" icon={metricIcons.steps} />
+          <ProgressBar label="Total carbohydrates" right={fmtCap(latest?.total_carbohydrates, CARB_LIMIT_G, "g")} value={pctCap(latest?.total_carbohydrates, CARB_LIMIT_G)} variant="teal" icon={metricIcons.total_carbohydrates} />
+          <ProgressBar label="Sleep" right={fmtRange(latest?.sleep_duration, 8, "h")} value={pct(latest?.sleep_duration, 8)} icon={metricIcons.sleep_duration} />
         </SectionCard>
 
         <div className="rounded-2xl p-4 md:p-5 border border-primary/60 bg-gradient-to-br from-primary/20 to-primary/5 flex flex-col justify-center">
@@ -82,10 +84,10 @@ export default function TodayTab({ latest, profile, weeklyFocus }) {
         }
       >
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3.5">
-          <ActivityNode label="Movement Snacks" value={latest?.movement_snacks_completed ? "✓" : "—"} detail="Daily habit" accent="gold" />
-          <ActivityNode label="Walks" value={latest?.steps != null ? `${(latest.steps / 1000).toFixed(1)}k` : "—"} detail="Steps today" accent="teal" />
-          <ActivityNode label="Strength" value={latest?.strength_workout_completed ? "✓" : "—"} detail="Workout" accent="gold" />
-          <ActivityNode label="Mobility" value={latest?.mobility_completed ? "✓" : "—"} detail="Daily habit" accent="teal" />
+          <ActivityNode label="Movement Snacks" value={latest?.movement_snacks_completed ? "✓" : "—"} detail="Daily habit" accent="gold" icon={metricIcons.movement_snacks_completed} />
+          <ActivityNode label="Walks" value={latest?.steps != null ? `${(latest.steps / 1000).toFixed(1)}k` : "—"} detail="Steps today" accent="teal" icon={metricIcons.steps} />
+          <ActivityNode label="Strength" value={latest?.strength_workout_completed ? "✓" : "—"} detail="Workout" accent="gold" icon={metricIcons.strength_workout_completed} />
+          <ActivityNode label="Mobility" value={latest?.mobility_completed ? "✓" : "—"} detail="Daily habit" accent="teal" icon={metricIcons.mobility_completed} />
         </div>
       </SectionCard>
     </div>

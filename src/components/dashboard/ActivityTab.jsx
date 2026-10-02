@@ -1,5 +1,6 @@
 import React from "react";
 import { SectionCard, SectionTitle, Pill, ProgressBar } from "./shared";
+import { metricIcons } from "@/lib/metricIcons";
 
 export default function ActivityTab({ checkins }) {
   const last7 = [...(checkins || [])].slice(-7);
@@ -24,10 +25,10 @@ export default function ActivityTab({ checkins }) {
           </div>
         }
       >
-        <ProgressBar label="Movement Snacks" right={`${movementSnacks} sessions`} value={(movementSnacks / 14) * 100} />
-        <ProgressBar label="Walks" right={`${steps.toLocaleString()} steps`} value={(steps / 70000) * 100} variant="teal" />
-        <ProgressBar label="Strength Workouts" right={`${strength} workouts`} value={(strength / 3) * 100} />
-        <ProgressBar label="Mobility" right={`${mobility} days`} value={(mobility / 7) * 100} variant="teal" />
+        <ProgressBar label="Movement Snacks" right={`${movementSnacks} sessions`} value={(movementSnacks / 14) * 100} icon={metricIcons.movement_snacks_completed} />
+        <ProgressBar label="Walks" right={`${steps.toLocaleString()} steps`} value={(steps / 70000) * 100} variant="teal" icon={metricIcons.steps} />
+        <ProgressBar label="Strength Workouts" right={`${strength} workouts`} value={(strength / 3) * 100} icon={metricIcons.strength_workout_completed} />
+        <ProgressBar label="Mobility" right={`${mobility} days`} value={(mobility / 7) * 100} variant="teal" icon={metricIcons.mobility_completed} />
       </SectionCard>
 
       <div className="grid gap-3.5 md:grid-cols-2">

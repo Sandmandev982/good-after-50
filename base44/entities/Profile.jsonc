@@ -36,6 +36,14 @@
     },
     "hydration_glasses_per_day": {
       "type": "number"
+    },
+    "coach_sharing": {
+      "type": "boolean",
+      "default": false
+    },
+    "coach_sharing_updated_at": {
+      "type": "string",
+      "format": "date-time"
     }
   },
   "required": [],

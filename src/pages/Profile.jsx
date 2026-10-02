@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/components/ui/use-toast";
 import { useProfile } from "@/hooks/useProfile";
 import { useWeeklyFocus } from "@/hooks/useWeeklyFocus";
@@ -19,6 +20,7 @@ export default function Profile() {
     starting_waist: "",
     ...Object.fromEntries(BASELINE_NUMBER_KEYS.map((k) => [k, ""])),
     focus_of_the_week: "",
+    coach_sharing: false,
   });
   const [saving, setSaving] = useState(false);
 
@@ -31,6 +33,7 @@ export default function Profile() {
         starting_weight: profile.starting_weight ?? "",
         starting_waist: profile.starting_waist ?? "",
         ...Object.fromEntries(BASELINE_NUMBER_KEYS.map((k) => [k, profile[k] ?? ""])),
+        coach_sharing: profile.coach_sharing ?? false,
       }));
     }
   }, [profile]);
@@ -53,6 +56,10 @@ export default function Profile() {
         ...Object.fromEntries(
           BASELINE_NUMBER_KEYS.map((k) => [k, form[k] ? Number(form[k]) : undefined])
         ),
+        coach_sharing: form.coach_sharing,
+        ...(form.coach_sharing !== (profile?.coach_sharing ?? false)
+          ? { coach_sharing_updated_at: new Date().toISOString() }
+          : {}),
       };
       await saveProfile(data);
       if (form.focus_of_the_week && form.focus_of_the_week !== currentFocus) {
@@ -151,6 +158,26 @@ export default function Profile() {
               onChange={(e) => set("focus_of_the_week", e.target.value)}
               placeholder="What matters most this week"
             />
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="pb-3">
+            <CardTitle className="text-base">Sharing with your coaches</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="flex items-start justify-between gap-4">
+              <div className="space-y-1">
+                <Label htmlFor="coach-sharing">Share my check-ins</Label>
+                <p className="text-sm text-muted-foreground">
+                  Your coaches can see what you log, but can't change it.
+                </p>
+              </div>
+              <Switch
+                id="coach-sharing"
+                checked={form.coach_sharing}
+                onCheckedChange={(v) => set("coach_sharing", Boolean(v))}
+              />
+            </div>
           </CardContent>
         </Card>
         <Button type="submit" disabled={saving} className="w-full sm:w-auto">
